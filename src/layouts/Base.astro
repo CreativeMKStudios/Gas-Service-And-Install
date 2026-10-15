@@ -21,7 +21,7 @@ interface Props {
 }
 
 const { title, description, crumbs = [], schema = [], noindex = false, preloadHero = false } = Astro.props;
-const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+const site = Astro.site ?? new URL("https://gasserviceandinstall.surge.sh");
 const canonical = new URL(Astro.url.pathname, site).href;
 const fullTitle = title.includes(business.name) ? title : `${title} | ${business.name}`;
 const ogImage = new URL("/og.jpg", site).href;

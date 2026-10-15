@@ -16,7 +16,7 @@ const crumbs = [
   { name: "Services", path: "/services" },
   { name: service.name, path: `/services/${service.slug}` },
 ];
-const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+const site = Astro.site ?? new URL("https://gasserviceandinstall.surge.sh");
 const others = services.filter((item) => item.slug !== service.slug).slice(0, 3);
 ---
 <Base

@@ -8,7 +8,7 @@ const crumbs = [
   { name: "Home", path: "/" },
   { name: "Services", path: "/services" },
 ];
-const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+const site = Astro.site ?? new URL("https://gasserviceandinstall.surge.sh");
 const seenPhotos = new Set<string>();
 const cards = services.map((service) => {
   const showPhoto = !seenPhotos.has(service.photo);

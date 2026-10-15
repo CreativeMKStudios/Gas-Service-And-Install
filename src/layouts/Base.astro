@@ -1,0 +1,95 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { business } from "../data/business";
+import { businessSchema } from "../data/schema";
+
+interface Crumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs?: Crumb[];
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+  preloadHero?: boolean;
+}
+
+const { title, description, crumbs = [], schema = [], noindex = false, preloadHero = false } = Astro.props;
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+const canonical = new URL(Astro.url.pathname, site).href;
+const fullTitle = title.includes(business.name) ? title : `${title} | ${business.name}`;
+const ogImage = new URL("/og.jpg", site).href;
+const graph = [businessSchema(site), ...schema];
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
+    <meta name="theme-color" content="#17191d" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="geo.region" content="GB-CBF" />
+    <meta name="geo.placename" content={`${business.locality}, ${business.region}`} />
+    <meta name="geo.position" content={`${business.lat};${business.lng}`} />
+    <meta name="ICBM" content={`${business.lat}, ${business.lng}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Plant room with two Ideal boilers and an Andrews water heater" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    {preloadHero && (
+      <link
+        rel="preload"
+        as="image"
+        href="/images/plant-room-1600.webp"
+        imagesrcset="/images/plant-room-960.webp 960w, /images/plant-room-1600.webp 1600w"
+        imagesizes="100vw"
+        fetchpriority="high"
+      />
+    )}
+    <JsonLd data={graph} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      {crumbs.length > 0 && (
+        <div class="wrap page-title">
+          <nav class="crumbs" aria-label="Breadcrumb">
+            {crumbs.map((crumb, index) => (
+              <span>
+                {index > 0 && <span aria-hidden="true"> / </span>}
+                {index < crumbs.length - 1 ? <a href={crumb.path}>{crumb.name}</a> : <span>{crumb.name}</span>}
+              </span>
+            ))}
+          </nav>
+        </div>
+      )}
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

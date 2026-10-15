@@ -1,0 +1,61 @@
+---
+import Base from "../layouts/Base.astro";
+import Picture from "../components/Picture.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { photos } from "../data/business";
+import { breadcrumbSchema } from "../data/schema";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Projects", path: "/projects" },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+---
+<Base
+  title="Heating projects and van"
+  description="Real job photos from the Gas Service And Install Google profile: an Ideal plant room, a combi install, and the company van."
+  crumbs={crumbs}
+  schema={[breadcrumbSchema(site, crumbs)]}
+>
+  <article class="section" style="padding-top:8px">
+    <div class="wrap prose">
+      <h1>Projects</h1>
+      <p style="margin-top:14px">
+        These photos are the four images on the Google Business Profile, saved in October 2026. Two are jobs. Two are the van. We have not named the buildings, because the profile does not name them.
+      </p>
+    </div>
+    <div class="wrap" style="margin-top:28px">
+      <div class="work-grid">
+        <figure>
+          <Picture name="plant" sizes="(min-width: 900px) 62vw, 100vw" />
+          <figcaption>
+            <strong style="color:#17191d">Plant room, two Ideal boilers</strong><br />
+            {photos.plant.caption} This is the kind of larger hot water and heating job the business takes on, as well as a single boiler in a house.
+          </figcaption>
+        </figure>
+        <figure>
+          <Picture name="combi" sizes="(min-width: 900px) 32vw, 100vw" />
+          <figcaption>
+            <strong style="color:#17191d">Ideal combi in a cupboard</strong><br />
+            {photos.combi.caption} The pipework was finished while the floor was still open, so the rest of the room could be closed in around a working boiler.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="wrap" style="margin-top:36px">
+      <h2 style="font-size:1.8rem;margin-bottom:8px">The van</h2>
+      <p style="color:#5c6570;max-width:62ch">Both van pictures were posted on 6 July 2024. The Gas Safe number and the Ideal Heating Max badge are on the back door.</p>
+      <div class="gallery" style="margin-top:16px">
+        <figure>
+          <Picture name="vanBrand" sizes="(min-width: 800px) 40vw, 100vw" />
+          <figcaption>{photos.vanBrand.caption}</figcaption>
+        </figure>
+        <figure>
+          <Picture name="vanWash" sizes="(min-width: 800px) 40vw, 100vw" />
+          <figcaption>{photos.vanWash.caption}</figcaption>
+        </figure>
+      </div>
+    </div>
+  </article>
+  <CtaBand />
+</Base>

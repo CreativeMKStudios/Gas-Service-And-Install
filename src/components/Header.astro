@@ -1,0 +1,35 @@
+---
+const path = Astro.url.pathname;
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
+  { href: "/projects", label: "Projects" },
+  { href: "/areas", label: "Areas" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+function current(href: string) {
+  if (href === "/") return path === "/" ? "page" : undefined;
+  return path === href || path.startsWith(`${href}/`) ? "page" : undefined;
+}
+---
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="32" fill="#f0b323"></rect>
+        <path fill="#1f6fe5" d="M32.2 12c.4 6.2 2.2 9.4 4.6 12.2 2.6 3 5.4 6.2 5.4 11.6 0 6.4-4.8 11.2-10.8 11.2S20.6 42.2 20.6 35.8c0-4.2 2.2-7.2 4.4-10.2 1.6-2.2 3-4.4 3.4-7.4.2 2.6 1.2 4.2 2.4 5.6 1.2-3.4 1.4-8.2 1.4-11.8z"></path>
+        <path fill="#8ec5ff" d="M32 28.5c1.6 2.4 4.2 4.2 4.2 7.2 0 2.8-2.2 4.8-4.6 4.8s-4.4-2-4.4-4.6c0-2.2 1.4-3.6 2.4-5 .6 1.2 1.2 1.8 1.6 2.2.2-1.8.4-3.2.8-4.6z"></path>
+      </svg>
+      <span>Gas Service<small>And Install</small></span>
+    </a>
+    <input class="nav-toggle" id="nav-toggle" type="checkbox" />
+    <label class="nav-button" for="nav-toggle"><span class="menu-open">Menu</span><span class="menu-close">Close</span></label>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      {links.map((link) => (
+        <a href={link.href} aria-current={current(link.href)}>{link.label}</a>
+      ))}
+    </nav>
+    <a class="btn btn-gold header-cta" href="/contact">Get a quote</a>
+  </div>
+</header>

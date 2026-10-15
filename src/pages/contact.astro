@@ -1,0 +1,82 @@
+---
+import Base from "../layouts/Base.astro";
+import { business, services } from "../data/business";
+import { breadcrumbSchema } from "../data/schema";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Contact", path: "/contact" },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+---
+<Base
+  title="Contact and quote request"
+  description="Call or text Gas Service And Install on 07738 598396. Weekdays from 6am, Friday until 4pm. Based in Houghton Conquest, covering Bedford."
+  crumbs={crumbs}
+  schema={[breadcrumbSchema(site, crumbs)]}
+>
+  <section class="section" style="padding-top:8px">
+    <div class="wrap split">
+      <div>
+        <h1>Contact us</h1>
+        <p style="margin-top:12px;color:#5c6570;max-width:52ch">
+          The fastest way is a phone call. There is no public email on the Google profile, so this form does not send mail to a server. It writes your message on this page so you can text it, or read it out when you call.
+        </p>
+        <p id="form-error" class="ready" hidden>Add your name, a phone number, your town and a short note about the job.</p>
+        <div id="ready" class="ready" hidden>
+          <strong>Your message is ready. It has not been sent yet.</strong>
+          <pre data-message></pre>
+          <div class="cta-actions">
+            <a class="btn btn-gold" data-sms href={`sms:${business.phoneTel}`}>Text this message</a>
+            <a class="btn btn-line" href={`tel:${business.phoneTel}`}>Call instead</a>
+            <button class="btn btn-line" type="button" data-copy>Copy message</button>
+          </div>
+        </div>
+        <form id="quote-form" class="panel" action="/contact" method="get" style="margin-top:18px">
+          <label>Name
+            <input name="name" autocomplete="name" required />
+          </label>
+          <label>Phone
+            <input name="phone" type="tel" autocomplete="tel" required inputmode="tel" />
+          </label>
+          <label>Town
+            <input name="town" required />
+          </label>
+          <label>What do you need?
+            <select name="job">
+              <option value="Not sure">Not sure</option>
+              {services.map((service) => (
+                <option value={service.name}>{service.name}</option>
+              ))}
+            </select>
+          </label>
+          <label>What is going on?
+            <textarea name="message" required minlength="6"></textarea>
+          </label>
+          <label class="hp">Leave this empty
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+          <button class="btn btn-gold" type="submit">Prepare my message</button>
+        </form>
+      </div>
+      <aside>
+        <div class="panel">
+          <h2 style="font-size:1.3rem">Call {business.phoneDisplay}</h2>
+          <p style="margin-top:8px"><a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a></p>
+          <h3 style="margin-top:18px;font-size:1.05rem">Hours</h3>
+          <p>Monday to Thursday, 6am to 5pm</p>
+          <p>Friday, 6am to 4pm</p>
+          <p>Saturday and Sunday, closed</p>
+          <h3 style="margin-top:18px;font-size:1.05rem">Base</h3>
+          <p>{business.locality}, {business.region}. We come to you.</p>
+          <p style="margin-top:8px"><a href={business.mapsUrl}>Google Maps</a></p>
+        </div>
+        <div class="note" style="margin-top:16px">
+          <strong>Smell gas?</strong>
+          <p>Leave the building. Do not use switches. Call the National Gas Emergency line on <a href={`tel:${business.emergencyPhoneTel}`}>{business.emergencyPhoneDisplay}</a>. Call us only after they say the supply is safe.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+  <script is:inline src="/contact.js" defer></script>
+</Base>

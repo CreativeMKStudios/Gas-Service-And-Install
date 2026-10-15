@@ -1,0 +1,64 @@
+---
+import Base from "../layouts/Base.astro";
+import { business, googleReviews, otherReviews, topics } from "../data/business";
+import { breadcrumbSchema } from "../data/schema";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Reviews", path: "/reviews" },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+---
+<Base
+  title="Google and directory reviews"
+  description="Gas Service And Install is rated 5.0 from 72 Google reviews. Read the full reviews we could quote, plus Yell and MyJobQuote write-ups."
+  crumbs={crumbs}
+  schema={[breadcrumbSchema(site, crumbs)]}
+>
+  <section class="section" style="padding-top:8px">
+    <div class="wrap">
+      <div class="prose" style="margin-bottom:22px">
+        <h1>Reviews</h1>
+        <p style="margin-top:14px">
+          Google lists {business.rating} from {business.reviewCount} reviews. The five below are the full reviews returned with the public profile, word for word, dated 10 June 2026. The other 67 sit on Google. We have not rewritten them and we have not added any.
+        </p>
+        <p>
+          <a href={business.mapsUrl}>Read all {business.reviewCount} reviews on Google</a>
+        </p>
+      </div>
+      <div class="review-grid">
+        {googleReviews.map((review) => (
+          <article class="review">
+            <div class="review-top">
+              <h2 style="font-size:1.05rem">{review.name}</h2>
+              <span class="stars" aria-label="5 out of 5">★★★★★</span>
+            </div>
+            <p class="source">Google · {review.dateLabel}</p>
+            <p>{review.text}</p>
+          </article>
+        ))}
+      </div>
+      <h2 style="margin:36px 0 12px;font-size:1.5rem">Topics Google groups the comments under</h2>
+      <ul class="prose" style="columns:2;max-width:none">
+        {topics.map((topic) => (
+          <li>{topic.name}: {topic.count}</li>
+        ))}
+      </ul>
+      <h2 style="margin:36px 0 12px;font-size:1.5rem">Other published reviews</h2>
+      <p class="prose" style="margin-bottom:16px">These are from Yell and MyJobQuote, not from Google. They are about the same Chris and the same Gas Safe number.</p>
+      <div class="review-grid">
+        {otherReviews.map((review) => (
+          <article class="review">
+            <div class="review-top">
+              <h3>{review.name}</h3>
+              <span class="stars" aria-label="5 out of 5">★★★★★</span>
+            </div>
+            <p class="source">{review.source} · {review.dateLabel} · {review.context}</p>
+            <p>{review.text}</p>
+            <p style="margin-top:10px"><a href={review.url}>View on {review.source}</a></p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

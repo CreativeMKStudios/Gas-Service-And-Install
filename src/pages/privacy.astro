@@ -1,0 +1,34 @@
+---
+import Base from "../layouts/Base.astro";
+import { breadcrumbSchema } from "../data/schema";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Privacy", path: "/privacy" },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+---
+<Base
+  title="Privacy"
+  description="How the Gas Service And Install website handles your details. No analytics cookies. The quote form stays in your browser."
+  crumbs={crumbs}
+  schema={[breadcrumbSchema(site, crumbs)]}
+>
+  <article class="section" style="padding-top:8px">
+    <div class="wrap prose">
+      <h1>Privacy</h1>
+      <p style="margin-top:14px">This page was written on 15 October 2026.</p>
+      <h2>Who we are</h2>
+      <p>Gas Service And Install, based in Houghton Conquest, Bedfordshire. Phone 07738 598396.</p>
+      <h2>What this site stores</h2>
+      <p>The site is a set of pages. It does not run adverts and it does not use analytics cookies. We do not ask you to make an account.</p>
+      <h2>The quote form</h2>
+      <p>The form uses a normal web address on your own device. Your name, phone, town and message are put in that address so the page can show the text. They are not sent to a database. They can stay in your browser history until you clear it.</p>
+      <p>If you press “Text this message”, your phone opens a text to 07738 598396. Your mobile network then handles that text in the usual way. If you only call, the form text never leaves your phone.</p>
+      <h2>Links that leave the site</h2>
+      <p>Links to Google, the Gas Safe Register, Yell and MyJobQuote are other companies. Their pages have their own privacy rules.</p>
+      <h2>How to ask a question</h2>
+      <p>Call 07738 598396 in opening hours if you want to know what we hold about you. A phone booking is a normal business record, kept so we can do the job and meet gas safety rules.</p>
+    </div>
+  </article>
+</Base>

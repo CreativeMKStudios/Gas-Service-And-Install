@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { areas, business } from "../data/business";
+import { breadcrumbSchema } from "../data/schema";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Areas", path: "/areas" },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+---
+<Base
+  title="Areas we cover around Bedford"
+  description="Gas Service And Install is based in Houghton Conquest and covers Bedford, Kempston, Ampthill, Flitwick and villages within about 8 miles. Call 07738 598396."
+  crumbs={crumbs}
+  schema={[breadcrumbSchema(site, crumbs)]}
+>
+  <section class="section" style="padding-top:8px">
+    <div class="wrap">
+      <div class="prose" style="margin-bottom:28px">
+        <h1>Areas we cover</h1>
+        <p style="margin-top:14px">
+          The Google pin sits in Houghton Conquest. We do not put a house number on this site, because customers are visited at their own address. The miles below are straight-line distances from that pin, rounded to the nearest mile. The drive can be longer.
+        </p>
+        <p>
+          If your town is on the edge, or just past it, call {business.phoneDisplay}. We would rather say no than leave you waiting.
+        </p>
+        <p>
+          <a href={business.mapsUrl}>Open the Google listing</a>
+        </p>
+      </div>
+      <div class="area-grid">
+        {areas.map((area) => (
+          <article class="area">
+            <h2>{area.name}</h2>
+            <p class="miles">{area.miles === "Base" ? "Our base" : `About ${area.miles}`}</p>
+            <p>{area.note}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

@@ -1,0 +1,59 @@
+---
+import Base from "../layouts/Base.astro";
+import Picture from "../components/Picture.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { business, photos } from "../data/business";
+import { breadcrumbSchema } from "../data/schema";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+---
+<Base
+  title="About Chris, gas engineer"
+  description="Gas Service And Install is Chris, a Gas Safe registered engineer (676449) based in Houghton Conquest. Ideal Heating Max accredited. Serving Bedford since 2001."
+  crumbs={crumbs}
+  schema={[breadcrumbSchema(site, crumbs)]}
+>
+  <article class="section" style="padding-top:12px">
+    <div class="wrap split">
+      <div class="prose">
+        <h1>About us</h1>
+        <p style="margin-top:14px">
+          Gas Service And Install is the local gas, heating and plumbing business run by Chris. Customers know him as Chris Andrews. On some plumbing jobs he works with Gary. There is no call centre and no van full of strangers.
+        </p>
+        <p>
+          His own line on Google is simple: reliable, certificated gas, heating and plumbing for commercial and domestic work. The MyJobQuote profile lists the business as established in 2001. A customer still has him back each year for a Vaillant boiler he fitted in 2017.
+        </p>
+        <h2>Tickets you can check</h2>
+        <p>
+          The van shows Gas Safe registration {business.gasSafe} and an Ideal Heating Max accredited installer badge. It also carries a Baxi badge. You can check the Gas Safe number yourself before you book.
+        </p>
+        <p>
+          The Yell listing for the same number also says he is fully insured, holds an enhanced DBS check, and lists unvented hot water, LPG, a legionella certificate and landlord gas work. Those are his published claims. The certificates are not scanned on this site, so check anything you need to see in person.
+        </p>
+        <h2>How he works</h2>
+        <p>
+          Reviews come back to the same points. He turns up when he says, explains the job in plain words, and prices it before he starts. The pipework in the published photos is neat. Paperwork for a landlord check is left at the end of the visit when the appliances pass.
+        </p>
+        <p>
+          Hours on Google are Monday to Thursday, 6am to 5pm, and Friday 6am to 4pm. Saturday and Sunday are closed. If you smell gas, call 0800 111 999 first.
+        </p>
+      </div>
+      <aside>
+        <figure class="panel" style="padding:0;overflow:hidden">
+          <Picture name="vanBrand" sizes="(min-width: 900px) 360px, 100vw" />
+          <figcaption style="padding:14px 16px 16px;color:#5c6570">{photos.vanBrand.caption}</figcaption>
+        </figure>
+        <div class="note" style="margin-top:16px">
+          <strong>Check the registration</strong>
+          <p>Gas Safe number {business.gasSafe}.</p>
+          <p><a href={business.gasSafeUrl}>Search the Gas Safe Register</a></p>
+        </div>
+      </aside>
+    </div>
+  </article>
+  <CtaBand />
+</Base>

@@ -1,0 +1,84 @@
+---
+import Base from "../../layouts/Base.astro";
+import Picture from "../../components/Picture.astro";
+import FaqList from "../../components/FaqList.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { services } from "../../data/business";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "../../data/schema";
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+  { name: service.name, path: `/services/${service.slug}` },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+const others = services.filter((item) => item.slug !== service.slug).slice(0, 3);
+---
+<Base
+  title={service.title}
+  description={service.description}
+  crumbs={crumbs}
+  schema={[
+    breadcrumbSchema(site, crumbs),
+    serviceSchema(site, service),
+    faqSchema(service.faqs),
+  ]}
+>
+  <article class="section" style="padding-top:8px">
+    <div class="wrap split">
+      <div class="prose">
+        <h1>{service.h1}</h1>
+        <p style="margin-top:14px">{service.lead}</p>
+        {service.sections.map((section) => (
+          <section>
+            <h2>{section.heading}</h2>
+            {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+            {section.bullets && (
+              <ul>
+                {section.bullets.map((item) => <li>{item}</li>)}
+              </ul>
+            )}
+          </section>
+        ))}
+      </div>
+      <aside>
+        <figure class="panel" style="padding:0;overflow:hidden">
+          <Picture name={service.photo} sizes="(min-width: 900px) 360px, 100vw" />
+        </figure>
+        <div class="note" style="margin-top:16px">
+          <strong>Book this job</strong>
+          <p>Weekdays from 6am. Friday until 4pm. Closed at the weekend.</p>
+          <p style="margin-top:8px"><a href="/contact">Request a quote</a></p>
+        </div>
+      </aside>
+    </div>
+    <div class="wrap" style="margin-top:36px">
+      <h2 style="font-size:1.6rem;margin-bottom:12px">Questions about {service.name.toLowerCase()}</h2>
+      <FaqList faqs={service.faqs} />
+    </div>
+  </article>
+  <section class="section section-sand">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Other work we do</h2>
+      </div>
+      <div class="cards">
+        {others.map((item) => (
+          <article class="card">
+            <div class="card-body">
+              <h3>{item.name}</h3>
+              <p>{item.short}</p>
+            </div>
+            <a class="more" href={`/services/${item.slug}`}>Read more</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

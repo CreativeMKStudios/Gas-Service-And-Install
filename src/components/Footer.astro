@@ -1,0 +1,51 @@
+---
+import { business, services } from "../data/business";
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h2>Gas Service And Install</h2>
+      <p>Gas Safe registered engineer {business.gasSafe}, based in {business.locality}. Heating, hot water and plumbing for homes and small commercial jobs.</p>
+      <p style="margin-top:12px"><a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a></p>
+      <p>Mon–Thu 6am–5pm · Fri 6am–4pm</p>
+      <p>Sat–Sun closed</p>
+    </div>
+    <div>
+      <h2>Services</h2>
+      <ul>
+        {services.map((service) => (
+          <li><a href={`/services/${service.slug}`}>{service.name}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h2>Visit</h2>
+      <ul>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/areas">Areas we cover</a></li>
+        <li><a href="/reviews">Reviews</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Check us</h2>
+      <ul>
+        <li><a href={business.mapsUrl}>Google profile</a></li>
+        <li><a href={business.gasSafeUrl}>Gas Safe Register</a></li>
+        <li><a href={business.yellUrl}>Yell listing</a></li>
+        <li><a href={business.jobQuoteUrl}>MyJobQuote</a></li>
+        <li><a href={`tel:${business.emergencyPhoneTel}`}>Gas emergency {business.emergencyPhoneDisplay}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>© {year} Gas Service And Install. Gas Safe registration {business.gasSafe}. We come to you, so this site does not show a house address.</p>
+  </div>
+</footer>
+<div class="callbar">
+  <a class="btn btn-gold" href={`tel:${business.phoneTel}`}>Call {business.phoneDisplay}</a>
+  <a class="btn btn-line" href="/contact">Quote</a>
+</div>

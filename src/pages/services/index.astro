@@ -1,0 +1,49 @@
+---
+import Base from "../../layouts/Base.astro";
+import Picture from "../../components/Picture.astro";
+import { services } from "../../data/business";
+import { breadcrumbSchema } from "../../data/schema";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+];
+const site = Astro.site ?? new URL("https://gasserviceandinstall.co.uk");
+const seenPhotos = new Set<string>();
+const cards = services.map((service) => {
+  const showPhoto = !seenPhotos.has(service.photo);
+  seenPhotos.add(service.photo);
+  return { service, showPhoto };
+});
+---
+<Base
+  title="Gas and heating services"
+  description="Boiler installation, servicing, repairs, landlord gas safety checks, plumbing and gas appliances around Bedford. Call 07738 598396."
+  crumbs={crumbs}
+  schema={[breadcrumbSchema(site, crumbs)]}
+>
+  <section class="section" style="padding-top:8px">
+    <div class="wrap">
+      <div class="section-head" style="text-align:left">
+        <h1>Services</h1>
+        <p style="margin-inline:0">The list below is the work we can show from the Google profile, reviews and the van. If your job is close but not on the list, call and ask.</p>
+      </div>
+      <div class="cards">
+        {cards.map(({ service, showPhoto }) => (
+          <article class="card">
+            {showPhoto ? (
+              <Picture name={service.photo} sizes="(min-width: 980px) 340px, 100vw" />
+            ) : (
+              <div class="card-fallback" aria-hidden="true"></div>
+            )}
+            <div class="card-body">
+              <h2 style="font-size:1.2rem">{service.name}</h2>
+              <p>{service.short}</p>
+            </div>
+            <a class="more" href={`/services/${service.slug}`}>More on {service.name.toLowerCase()}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

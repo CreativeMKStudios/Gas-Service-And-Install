@@ -1,0 +1,196 @@
+---
+import Base from "../layouts/Base.astro";
+import Picture from "../components/Picture.astro";
+import FaqList from "../components/FaqList.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { areas, business, googleReviews, homeFaqs, photos, services, topics } from "../data/business";
+import { faqSchema } from "../data/schema";
+
+const photoServices = [services[0], services[1], services[3]];
+const otherServices = services.filter((service) => !photoServices.includes(service));
+const featuredReviews = [googleReviews[0], googleReviews[3], googleReviews[4]];
+const nearAreas = areas.slice(1, 7);
+---
+<Base
+  title="Gas Engineer in Bedford"
+  description="Gas Safe registered engineer in Houghton Conquest. Boiler installs, servicing, repairs and landlord certificates across Bedford and nearby villages. Call 07738 598396."
+  preloadHero={true}
+  schema={[faqSchema(homeFaqs)]}
+>
+  <section class="hero">
+    <img
+      class="hero-media"
+      src="/images/plant-room-1600.webp"
+      srcset="/images/plant-room-960.webp 960w, /images/plant-room-1600.webp 1600w"
+      sizes="100vw"
+      width="1600"
+      height="1200"
+      alt={photos.plant.alt}
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="hero-scrim"></div>
+    <div class="hero-copy">
+      <div class="hero-copy-inner">
+        <p class="rating">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <strong>{business.rating}</strong>
+          <a href="/reviews">{business.reviewCount} Google reviews</a>
+        </p>
+        <h1>No heat? We're on it</h1>
+        <p class="lede">
+          Waking up with no heat or hot water is a bad start. Chris is a Gas Safe registered engineer in Houghton Conquest. He fits, services and repairs boilers for homes and small commercial jobs around Bedford. You get a straight price before any work starts.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href={`tel:${business.phoneTel}`}>Call {business.phoneDisplay}</a>
+          <a class="btn btn-white" href="/contact">Get a quote</a>
+        </div>
+      </div>
+      <ul class="stats">
+        <li>
+          <strong>{business.rating}</strong>
+          <span>{business.reviewCount} Google reviews</span>
+        </li>
+        <li>
+          <strong>{business.gasSafe}</strong>
+          <span>Gas Safe number</span>
+        </li>
+        <li>
+          <strong>{business.established}</strong>
+          <span>Trading since</span>
+        </li>
+        <li>
+          <strong>6am–5pm</strong>
+          <span>Mon–Thu, Fri to 4pm</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="services-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="services-heading">Service list</h2>
+        <p>Gas Safe work for heating and hot water across Bedford and the villages nearby.</p>
+      </div>
+      <div class="cards">
+        {photoServices.map((service) => (
+          <article class="card">
+            <Picture name={service.photo} sizes="(min-width: 980px) 340px, 100vw" eager={true} />
+            <div class="card-body">
+              <h3>{service.name}</h3>
+              <p>{service.short}</p>
+            </div>
+            <a class="more" href={`/services/${service.slug}`}>Read about {service.name.toLowerCase()}</a>
+          </article>
+        ))}
+      </div>
+      <div class="more-services">
+        {otherServices.map((service) => (
+          <a href={`/services/${service.slug}`}>{service.name}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-sand" aria-labelledby="how-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="how-heading">How a job goes</h2>
+        <p>No call centre. You speak to the person who does the work.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <span>1</span>
+          <h3>Call or text</h3>
+          <p>Say what is wrong, the make of the boiler if you know it, and your town. A photo of the badge inside the flap helps.</p>
+        </article>
+        <article class="step">
+          <span>2</span>
+          <h3>Get a clear price</h3>
+          <p>Chris looks at the job and tells you what it needs. The price is agreed before the work starts.</p>
+        </article>
+        <article class="step">
+          <span>3</span>
+          <h3>Leave it working</h3>
+          <p>The job is tested, the controls are explained, and any safety paperwork is left with you.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="work-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="work-heading">Work from the Google profile</h2>
+        <p>These are the job photos posted on the business profile. We have not added stock pictures.</p>
+      </div>
+      <div class="work-grid">
+        <figure>
+          <Picture name="plant" sizes="(min-width: 900px) 60vw, 100vw" />
+          <figcaption>{photos.plant.caption}</figcaption>
+        </figure>
+        <figure>
+          <Picture name="combi" sizes="(min-width: 900px) 30vw, 100vw" />
+          <figcaption>{photos.combi.caption}</figcaption>
+        </figure>
+      </div>
+      <p style="text-align:center;margin-top:18px"><a href="/projects">See the projects and the van photos</a></p>
+    </div>
+  </section>
+
+  <section class="section section-sand" aria-labelledby="reviews-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="reviews-heading">What customers wrote</h2>
+        <p>Google shows {business.rating} from {business.reviewCount} reviews. The lines below are real reviews, copied in full.</p>
+      </div>
+      <div class="review-grid">
+        {featuredReviews.map((review) => (
+          <article class="review">
+            <div class="review-top">
+              <h3>{review.name}</h3>
+              <span class="stars" aria-label="5 out of 5">★★★★★</span>
+            </div>
+            <p class="when">Google · {review.dateLabel}</p>
+            <p>{review.text}</p>
+          </article>
+        ))}
+      </div>
+      <p style="text-align:center;margin-top:18px">
+        People mention {topics.slice(0, 3).map((topic) => `${topic.name.toLowerCase()} (${topic.count})`).join(", ")}.
+        <a href="/reviews"> Read every review we could quote</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="areas-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="areas-heading">Towns near the base</h2>
+        <p>Straight-line distance from the Houghton Conquest map pin. Driving takes a little longer.</p>
+      </div>
+      <div class="area-grid">
+        {nearAreas.map((area) => (
+          <article class="area">
+            <h3>{area.name}</h3>
+            <p class="miles">About {area.miles}</p>
+            <p>{area.note}</p>
+          </article>
+        ))}
+      </div>
+      <p style="text-align:center;margin-top:18px"><a href="/areas">Full list of areas we cover</a></p>
+    </div>
+  </section>
+
+  <section class="section section-sand" aria-labelledby="faq-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="faq-heading">Questions people ask</h2>
+      </div>
+      <FaqList faqs={homeFaqs} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
